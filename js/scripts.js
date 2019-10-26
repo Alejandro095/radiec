@@ -60,7 +60,7 @@ let cfg = {
   Global: {
     html5: true,
     autoplay: true,
-    volume: 0.5,
+    volume: 1,
     format: ["aac"],
     onplay: function() {
       UI.Play();
@@ -182,7 +182,9 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 let get_volume = () =>
-  (JSON.parse(localStorage.getItem("volume_config")).volume || 1) * 100;
+  (localStorage.getItem("volume_config")
+    ? JSON.parse(localStorage.getItem("volume_config"))
+    : 1) * 100;
 
 let save_volume = volume_data => {
   let data_LocalStorage =
