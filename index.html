@@ -74,6 +74,7 @@
               class="text-5xl md:text-6xl text-yellow-2000 leading-tight underline"
             >
               <span
+                id="Song-display"
                 class="cc_streaminfo"
                 data-type="song"
                 data-username="rdiec"
@@ -82,6 +83,7 @@
                 >Cargando</span
               >
             </p>
+            <div id="Latest-songs" class="mt-8 ml-2"></div>
           </div>
         </div>
         <!-- Reproductor -->
@@ -165,5 +167,47 @@
     ></script>
     <!-- Scripts -->
     <script src="./js/scripts.js"></script>
+
+    <script>
+      let songs = [];
+      let container = $("Latest-songs");
+
+      setInterval(() => {
+        let current_value = $("Song-display").innerText;
+
+        if (
+          !!current_value != false &&
+          current_value.toLowerCase() != "cargando"
+        ) {
+          validate_songname(current_value);
+        }
+      }, 1000);
+
+      let render_Element = name => {
+        let div = document.createElement("p");
+        div.setAttribute(
+          "class",
+          "text-4xl md:text-4xl text-yellow-2000 leading-tight"
+        );
+        div.innerText = name;
+
+        container.append(div);
+        container.insertBefore(div, container.firstChild);
+      };
+
+      let validate_songname = song => {
+        let first_song = songs[0] || "|";
+
+        if (song != first_song) {
+          songs.unshift(song);
+          render_Element(song);
+        }
+
+        if (songs.length > 3) {
+          songs.pop();
+          container.removeChild(container.lastChild);
+        }
+      };
+    </script>
   </body>
 </html>
